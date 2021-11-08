@@ -12,9 +12,6 @@ const main = async () => {
   console.log('WavePortal address: ', portal.address);
 };
 
-
-
-
 const runMain = async () => {
   try {
     await main();

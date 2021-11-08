@@ -31,20 +31,22 @@ const main = async () => {
   waveCount = await waveContract.getTotalWaves();
 
   // owner calls the function
-  waveTxn = await waveContract.wave();
+  waveTxn = await waveContract.wave('Momma got her hair done...');
   await waveTxn.wait();
 
   waveCount = await waveContract.getTotalWaves();
 
   // randomPerson calls the function
-  waveTxn = await waveContract.connect(randomPerson).wave();
+  waveTxn = await waveContract.connect(randomPerson).wave('Jesus in the day spa...');
   await waveTxn.wait();
 
   // anotherRandomPerson calls the function
-  waveTxn = await waveContract.connect(anotherRandomPerson).wave();
+  waveTxn = await waveContract.connect(anotherRandomPerson).wave('Ive been on a bender...');
   await waveTxn.wait();
 
-  waveCount = await waveContract.getTotalWaves();
+  // call the getAllWaves function
+  let allWaves = await waveContract.getAllWaves();
+  console.log(allWaves);
 };
 
 // run main in an async try-catch function runMain
