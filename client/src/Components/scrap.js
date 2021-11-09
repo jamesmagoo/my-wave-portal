@@ -161,31 +161,31 @@ export default function App() {
 
   return (
     <Fragment>
-      <div className='flex flex-col items-center border-blue-600 w-1/2 mx-auto'>
-        <div className='flex flex-row mx-6 border-red-600 items-start justify-center my-16'>
-          <img src='favicon-32x32.png' alt='logo' />
-          <h1 class='text-center font-extralight text-3xl mx-3 '>HaikuPing</h1>
-        </div>
+      <div className='mainContainer'>
+        <div className='dataContainer'>
+          <div className='header'>
+            <img src='favicon-32x32.png' alt='logo' />
+            <br></br>
+            HaikuPing
+          </div>
 
-        <div className='width text-left italic text-gray-700 mb-10'>
-          Haiku (俳句), is a type of short form poetry originally from Japan.
-          Traditional Japanese haiku consist of three phrases that contain a
-          kireji, or "cutting word", with phonetic units similar to syllables in
-          a 5, 7, 5 pattern, and a kigo, or seasonal reference.
-        </div>
+          <div className='bio'>
+            Haiku (俳句), is a type of short form poetry originally from Japan.
+            Traditional Japanese haiku consist of three phrases that contain a
+            kireji, or "cutting word", with phonetic units similar to syllables
+            in a 5, 7, 5 pattern, and a kigo, or seasonal reference.
+          </div>
 
-        <div className='bg-red-500 w-2/3 items-center justify-center flex flex-col'>
           <form onSubmit={onSubmit}>
-            <div className="w-full">
-            <input 
-            type="text" 
-            name="haiku" 
-            id="haiku" 
-            class="shadow-sm h-32 border-black border-2 rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500 block sm:text-smrounded-md text-left"  
-            placeholder='Write a Haiku'
-            value={text} onChange={onChange}/>
-            </div>
-
+            <textarea
+              type='text'
+              name='text'
+              className='haikuInput'
+              placeholder='Write a Haiku'
+              value={text}
+              row={3}
+              onChange={onChange}
+            />
             <div>
               <input
                 type='submit'
@@ -195,30 +195,30 @@ export default function App() {
               />
             </div>
           </form>
+
+          {!currentAccount && (
+            <button className='waveButton' onClick={connectWallet}>
+              Connect Wallet
+            </button>
+          )}
+
+          {allWaves.map((wave, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: 'OldLace',
+                  marginTop: '16px',
+                  padding: '8px',
+                }}
+              >
+                <div>Address: {wave.address}</div>
+                <div>Time: {wave.timestamp.toString()}</div>
+                <div>Message: {wave.message}</div>
+              </div>
+            );
+          })}
         </div>
-
-        {!currentAccount && (
-          <button className='waveButton' onClick={connectWallet}>
-            Connect Wallet
-          </button>
-        )}
-
-        {allWaves.map((wave, index) => {
-          return (
-            <div
-              key={index}
-              style={{
-                backgroundColor: 'OldLace',
-                marginTop: '16px',
-                padding: '8px',
-              }}
-            >
-              <div>Address: {wave.address}</div>
-              <div>Time: {wave.timestamp.toString()}</div>
-              <div>Message: {wave.message}</div>
-            </div>
-          );
-        })}
       </div>
       <Footer />
     </Fragment>

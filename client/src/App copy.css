@@ -1,4 +1,21 @@
 
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 64px;
+  padding-bottom: 64px;
+  height: 100%;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 600px;
+  align-content: center;
+}
+
 .haikuCard{
   margin-top: 16px;
   padding: 8px;

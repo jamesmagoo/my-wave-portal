@@ -59,11 +59,16 @@ const Footer = () => {
       </a>
 
     </div>
-    <p class="mt-8 text-center text-base text-gray-400">
+    <p class="mt-8 text-center text-sm font-thin text-gray-600">
       &copy; 2021 James McGauran
     </p>
-    <div class="mt-8 flex justify-center space-x-6 text-center text-base text-gray-400">
-    <img src='buildspace.png' alt='logo' class="h-8 w-8"/>Buildspace Haedus Cohort
+    <div class=" space-x-6 my-3 text-gray-600 flex flex-row mx-6 border-red-600 items-start justify-center">
+      <div>
+      <img src='buildspace.png' alt='logo' class="h-8 w-8"/>
+      </div>
+      <div className="text-center text-sm font-thin">
+        Built with Buildspace - Haedus Cohort
+      </div>
     </div>
   </div>
 </footer>
