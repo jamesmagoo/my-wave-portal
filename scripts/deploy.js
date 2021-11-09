@@ -10,6 +10,7 @@ const main = async () => {
   await portal.deployed();
 
   console.log('WavePortal address: ', portal.address);
+
 };
 
 const runMain = async () => {

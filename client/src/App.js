@@ -6,6 +6,7 @@ import ABI from './utils/WavePortal.json';
 import 'tailwindcss/tailwind.css';
 import Footer from './Components/Footer';
 import { Fragment } from 'react';
+import Card from './Components/Card';
 
 export default function App() {
   const [currentAccount, setCurrentAccount] = useState('');
@@ -161,31 +162,42 @@ export default function App() {
 
   return (
     <Fragment>
-      <div className='flex flex-col items-center border-blue-600 w-1/2 mx-auto'>
-        <div className='flex flex-row mx-6 border-red-600 items-start justify-center my-16'>
+      <div className='flex flex-col items-center border-blue-600  mx-auto'>
+        {!currentAccount && (
+          <div className='flex flex-row items-left w-full ml-6'>
+            <div className=''>
+              <button className='waveButton' onClick={connectWallet}>
+                Connect Wallet
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className='flex flex-row mx-6 border-red-600 items-start justify-center my-8'>
           <img src='favicon-32x32.png' alt='logo' />
           <h1 class='text-center font-extralight text-3xl mx-3 '>HaikuPing</h1>
         </div>
 
-        <div className='width text-left italic text-gray-700 mb-10'>
+        <div className='width text-left italic text-gray-700 mb-10 w-1/3'>
           Haiku (俳句), is a type of short form poetry originally from Japan.
           Traditional Japanese haiku consist of three phrases that contain a
           kireji, or "cutting word", with phonetic units similar to syllables in
           a 5, 7, 5 pattern, and a kigo, or seasonal reference.
         </div>
 
-        <div className='bg-red-500 w-2/3 items-center justify-center flex flex-col'>
-          <form onSubmit={onSubmit}>
-            <div className="w-full">
-            <input 
-            type="text" 
-            name="haiku" 
-            id="haiku" 
-            class="shadow-sm h-32 border-black border-2 rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500 block sm:text-smrounded-md text-left"  
-            placeholder='Write a Haiku'
-            value={text} onChange={onChange}/>
+        <div className='items-center justify-center flex flex-col w-1/3'>
+          <form onSubmit={onSubmit} className='items-center w-full'>
+            <div>
+              <input
+                type='text'
+                name='haiku'
+                id='haiku'
+                class='shadow-sm h-32 w-full border-black border-2 rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500 block sm:text-smrounded-md '
+                placeholder='Write a Haiku'
+                value={text}
+                onChange={onChange}
+              />
             </div>
-
             <div>
               <input
                 type='submit'
@@ -197,25 +209,20 @@ export default function App() {
           </form>
         </div>
 
-        {!currentAccount && (
-          <button className='waveButton' onClick={connectWallet}>
-            Connect Wallet
-          </button>
-        )}
-
         {allWaves.map((wave, index) => {
           return (
-            <div
-              key={index}
-              style={{
-                backgroundColor: 'OldLace',
-                marginTop: '16px',
-                padding: '8px',
-              }}
-            >
-              <div>Address: {wave.address}</div>
-              <div>Time: {wave.timestamp.toString()}</div>
-              <div>Message: {wave.message}</div>
+            <div class='bg-white shadow sm:rounded-lg w-1/3 my-4' key={index}>
+              <div class='px-4 py-5 sm:p-6 border-2 border-blue-500 rounded-lg'>
+                <h3 class='text-lg leading-6 font-thin italic text-gray-900'>
+                  {wave.message}
+                </h3>
+                <div class='mt-2 max-w-xl text-xs text-gray-500'>
+                  <p>Address: {wave.address}</p>
+                </div>
+                <div class='mt-2 max-w-xl text-xs text-gray-500'>
+                  <p>TimeStamp: {wave.timestamp.toString()} </p>
+                </div>
+              </div>
             </div>
           );
         })}
