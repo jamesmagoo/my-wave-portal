@@ -11,6 +11,8 @@ contract WavePortal {
     uint256 totalWaves;
     // seed to generate random number
     uint256 private seed;
+    // mapping for last waved to stop spamming
+    mapping(address => uint256) public lastWavedAt;
 
     /// @notice Emits when a new wave is written to the contract
     /// @dev Explain to a developer any extra details
@@ -37,6 +39,17 @@ contract WavePortal {
     /// @dev The function is public - anyone can wave
     /// @param _message the message the user is sending
     function wave(string memory _message) public {
+        // stop spamming
+        require(
+            lastWavedAt[msg.sender] + 15 minutes < block.timestamp,
+            "Wait 15m"
+        );
+
+        /*
+         * Update the current timestamp we have for the user
+         */
+        lastWavedAt[msg.sender] = block.timestamp;
+
         totalWaves += 1;
         console.log("%s has waved!", msg.sender);
         waves.push(Wave(msg.sender, _message, block.timestamp));

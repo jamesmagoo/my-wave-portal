@@ -11,7 +11,7 @@ import Card from './Components/Card';
 export default function App() {
   const [currentAccount, setCurrentAccount] = useState('');
   const [allWaves, setAllWaves] = useState([]);
-  const contractAddress = '0x340cF2Bc1035Fd4deb26F068c64CAA8e89eD4718';
+  const contractAddress = '0x7B666cd15CAe99aDa4396523dea1Ec2DD71eF08d';
   const contractABI = ABI.abi;
 
   //Create a method that gets all waves from your contract
@@ -125,7 +125,8 @@ export default function App() {
         /*
          * Execute the actual wave from your smart contract
          */
-        const waveTxn = await wavePortalContract.wave(message);
+        // see gasLimit added
+        const waveTxn = await wavePortalContract.wave(message, { gasLimit: 300000 });
         console.log('Mining...', waveTxn.hash);
 
         await waveTxn.wait();

@@ -11,7 +11,6 @@ const main = async () => {
   const [owner, randomPerson, anotherRandomPerson] =
     await hre.ethers.getSigners();
 
-
   // compile contract
   // hre is the hardhat runtime environment object, it does not need to be imported. (injected by Hardhat)
   const waveContractFactory = await hre.ethers.getContractFactory('WavePortal');
@@ -42,6 +41,10 @@ const main = async () => {
   waveCount = await waveContract.getTotalWaves();
 
   // owner calls the function
+  waveTxn = await waveContract.wave('Momma got her hair done...');
+  await waveTxn.wait();
+
+  // owner calls the function again - lets see if cooldown works
   waveTxn = await waveContract.wave('Momma got her hair done...');
   await waveTxn.wait();
 
