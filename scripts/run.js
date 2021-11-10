@@ -19,12 +19,24 @@ const main = async () => {
 
   // run & deploy on local blockchain
   // this local blockchain runs and is destroyed everytime you deploy, so no data stays from deploy to deploy.
-  const waveContract = await waveContractFactory.deploy();
+  const waveContract = await waveContractFactory.deploy({
+    value: hre.ethers.utils.parseEther('0.1'), //fund contract with eth
+  });
 
   // wait for it to be deployed
   await waveContract.deployed();
   console.log('Contract deployed to:', waveContract.address);
   console.log('Contract deployed by:', owner.address);
+
+  // get contract balance
+  let contractBalance = await hre.ethers.provider.getBalance(
+    waveContract.address
+  );
+
+  console.log(
+    'The contracts balance is:',
+    hre.ethers.utils.formatEther(contractBalance)
+  );
 
   // call functions
   let waveCount;
@@ -37,12 +49,23 @@ const main = async () => {
   waveCount = await waveContract.getTotalWaves();
 
   // randomPerson calls the function
-  waveTxn = await waveContract.connect(randomPerson).wave('Jesus in the day spa...');
+  waveTxn = await waveContract
+    .connect(randomPerson)
+    .wave('Jesus in the day spa...');
   await waveTxn.wait();
 
   // anotherRandomPerson calls the function
-  waveTxn = await waveContract.connect(anotherRandomPerson).wave('Ive been on a bender...');
+  waveTxn = await waveContract
+    .connect(anotherRandomPerson)
+    .wave('Ive been on a bender...');
   await waveTxn.wait();
+
+  // get balance after 3 txns
+  contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
+  console.log(
+    'Contract balance after txns:',
+    hre.ethers.utils.formatEther(contractBalance)
+  );
 
   // call the getAllWaves function
   let allWaves = await waveContract.getAllWaves();
