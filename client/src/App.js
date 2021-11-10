@@ -11,7 +11,7 @@ import Card from './Components/Card';
 export default function App() {
   const [currentAccount, setCurrentAccount] = useState('');
   const [allWaves, setAllWaves] = useState([]);
-  const contractAddress = '0x608DC74d2908D2d7BD8DE98F9568DCB52304e7aF';
+  const contractAddress = '0x340cF2Bc1035Fd4deb26F068c64CAA8e89eD4718';
   const contractABI = ABI.abi;
 
   //Create a method that gets all waves from your contract
