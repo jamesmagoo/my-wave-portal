@@ -11,7 +11,6 @@ const main = async () => {
   const [owner, randomPerson, anotherRandomPerson] =
     await hre.ethers.getSigners();
 
-  console.log(process.env.test);
 
   // compile contract
   // hre is the hardhat runtime environment object, it does not need to be imported. (injected by Hardhat)

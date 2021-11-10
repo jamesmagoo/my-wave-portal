@@ -38,7 +38,8 @@ export default function App() {
          */
         let wavesCleaned = [];
         waves.forEach((wave) => {
-          wavesCleaned.push({
+          // use unshift to add to start of array so newest is first
+          wavesCleaned.unshift({
             address: wave.waver,
             timestamp: new Date(wave.timestamp * 1000),
             message: wave.message,
@@ -188,7 +189,7 @@ export default function App() {
         <div className='items-center justify-center flex flex-col w-1/3'>
           <form onSubmit={onSubmit} className='items-center w-full'>
             <div>
-              <input
+              <textarea
                 type='text'
                 name='haiku'
                 id='haiku'
@@ -216,11 +217,11 @@ export default function App() {
                 <h3 class='text-lg leading-6 font-thin italic text-gray-900'>
                   {wave.message}
                 </h3>
-                <div class='mt-2 max-w-xl text-xs text-gray-500'>
-                  <p>Address: {wave.address}</p>
+                <div class='mt-2 text-xs text-gray-300'>
+                  <p>From: {wave.address}</p>
                 </div>
-                <div class='mt-2 max-w-xl text-xs text-gray-500'>
-                  <p>TimeStamp: {wave.timestamp.toString()} </p>
+                <div class='mt-2 max-w-xl text-xs text-gray-300'>
+                  <p>Time: {wave.timestamp.toString()} </p>
                 </div>
               </div>
             </div>
