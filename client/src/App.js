@@ -16,8 +16,9 @@ export default function App() {
 
   //Create a method that gets all waves from your contract
   const getAllWaves = async () => {
+    const { ethereum } = window;
+    
     try {
-      const { ethereum } = window;
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -27,23 +28,14 @@ export default function App() {
           signer
         );
 
-        /*
-         * Call the getAllWaves method from your Smart Contract
-         */
         const waves = await wavePortalContract.getAllWaves();
 
-        /*
-         * We only need address, timestamp, and message in our UI so let's
-         * pick those out
-         */
-        let wavesCleaned = [];
-        waves.forEach((wave) => {
-          // use unshift to add to start of array so newest is first
-          wavesCleaned.unshift({
+        const wavesCleaned = waves.map(wave => {
+          return {
             address: wave.waver,
             timestamp: new Date(wave.timestamp * 1000),
             message: wave.message,
-          });
+          };
         });
 
         /*
@@ -57,6 +49,37 @@ export default function App() {
       console.log(error);
     }
   };
+
+ // Listen for emit events from contract to automatically update frontend
+  useEffect(() => {
+    let wavePortalContract;
+
+    const onNewWave = (from, timestamp, message) => {
+      console.log('NewWave', from, timestamp, message);
+      setAllWaves(prevState => [
+        ...prevState,
+        {
+          address: from,
+          timestamp: new Date(timestamp * 1000),
+          message: message,
+        },
+      ]);
+    };
+
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+
+      wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+      wavePortalContract.on('NewWave', onNewWave);
+    }
+
+    return () => {
+      if (wavePortalContract) {
+        wavePortalContract.off('NewWave', onNewWave);
+      }
+    };
+  }, []);
 
   // Check if wallet is connected
   const checkIfWalletIsConnected = async () => {
@@ -175,7 +198,7 @@ export default function App() {
           </div>
         )}
 
-        <div className='flex flex-row mx-6 border-red-600 items-start justify-center my-8'>
+        <div className='flex flex-row mx-6 border-red-600 items-start justify-center my-6'>
           <img src='favicon-32x32.png' alt='logo' />
           <h1 class='text-center font-extralight text-3xl mx-3 '>HaikuPing</h1>
         </div>
